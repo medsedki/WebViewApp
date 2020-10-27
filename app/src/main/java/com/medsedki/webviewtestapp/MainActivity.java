@@ -15,12 +15,14 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import butterknife.BindView;
@@ -30,12 +32,14 @@ public class MainActivity extends AppCompatActivity {
 
     @BindView(R.id.swipe_layout)
     SwipeRefreshLayout mSwipeLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     @BindView(R.id.layout)
     LinearLayout mLayout;
     @BindView(R.id.progress_horizontal)
     ProgressBar mProgress;
     @BindView(R.id.image)
-    ImageButton mImage;
+    ImageView mImage;
     @BindView(R.id.web_view)
     WebView mWebview;
 
@@ -49,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbar);
 
         // Set the upper range of the progress bar max
         mProgress.setMax(100);
@@ -131,8 +137,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
+        /*MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);*/
+        getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
