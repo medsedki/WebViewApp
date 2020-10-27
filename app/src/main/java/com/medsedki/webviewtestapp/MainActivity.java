@@ -3,25 +3,34 @@ package com.medsedki.webviewtestapp;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.swipe_layout)
+    SwipeRefreshLayout mSwipeLayout;
+    @BindView(R.id.layout)
+    LinearLayout mLayout;
     @BindView(R.id.progress_horizontal)
     ProgressBar mProgress;
     @BindView(R.id.image)
@@ -30,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     WebView mWebview;
 
     String WEBSITE_URL = "https://protocoderspoint.com/";
+    //private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +61,22 @@ public class MainActivity extends AppCompatActivity {
         WebSettings webSettings = mWebview.getSettings();
         webSettings.setJavaScriptEnabled(true);
 
-        mWebview.setWebViewClient(new WebViewClient());
+        mWebview.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                Log.d("PageView", "__onPageStarted");
+                mLayout.setVisibility(View.VISIBLE);
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                Log.d("PageView", "__onPageFinished");
+                mLayout.setVisibility(View.GONE);
+                mSwipeLayout.setRefreshing(false);
+                super.onPageFinished(view, url);
+            }
+        });
         mWebview.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
@@ -71,6 +96,14 @@ public class MainActivity extends AppCompatActivity {
                 mImage.setImageBitmap(icon);
             }
         });
+
+        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mWebview.reload();
+            }
+        });
+
 
     }
 
