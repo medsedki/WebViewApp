@@ -9,7 +9,11 @@
     <string name="menu_back">Back</string>
     <string name="menu_forward">Forward</string>
     <string name="menu_refresh">Refresh</string>
+    <string name="menu_share">Share</string>
 
     <string name="toast_forward">Can\'t go forward !!</string>
     <string name="todo">TODO</string>
+
+    <string name="share_subject">URL Copied</string>
+    <string name="share_title">Share URL with friends..</string>
 </resources>

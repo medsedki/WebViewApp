@@ -17,6 +17,11 @@
     <item
         android:id="@+id/menu_refresh"
         android:icon="@drawable/ic_refresh"
-        android:title="@string/menu_refresh"
-        app:showAsAction="always" />
+        android:title="@string/menu_refresh" />
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share"
+        android:title="@string/menu_share" />
+
 </menu>

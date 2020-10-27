@@ -1,6 +1,7 @@
 package com.medsedki.webviewtestapp;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     WebView mWebview;
 
     String WEBSITE_URL = "https://protocoderspoint.com/";
+    String CURRENT_URL;
     private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     @Override
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 mLayout.setVisibility(View.GONE);
                 mSwipeLayout.setRefreshing(false);
                 super.onPageFinished(view, url);
+                CURRENT_URL = url;
             }
         });
         mWebview.setWebChromeClient(new WebChromeClient() {
@@ -97,13 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                mWebview.reload();
-            }
-        });
-
+        mSwipeLayout.setOnRefreshListener(() -> mWebview.reload());
 
     }
 
@@ -151,6 +148,14 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.menu_refresh:
                 mWebview.reload();
+                break;
+            case R.id.menu_share:
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                //shareIntent.putExtra(Intent.EXTRA_TEXT, "Some description");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, CURRENT_URL);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_subject));
+                startActivity(Intent.createChooser(shareIntent, getString(R.string.share_title)));
                 break;
             default:
                 break;
