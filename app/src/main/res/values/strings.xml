@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WebViewTestApp</string>
+
+    <string name="alert_title">Alert</string>
+    <string name="alert_message">Do you want really quit the application.</string>
+    <string name="alert_quit">Quit</string>
+    <string name="alert_cancel">Cancel</string>
 </resources>
