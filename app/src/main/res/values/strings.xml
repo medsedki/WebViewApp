@@ -16,4 +16,6 @@
 
     <string name="share_subject">URL Copied</string>
     <string name="share_title">Share URL with friends..</string>
+
+    <string name="file_download">Your file in downloading...</string>
 </resources>

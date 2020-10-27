@@ -1,20 +1,21 @@
 package com.medsedki.webviewtestapp;
 
 import android.app.AlertDialog;
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -43,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     @BindView(R.id.web_view)
     WebView mWebview;
 
-    String WEBSITE_URL = "https://protocoderspoint.com/";
+    //String WEBSITE_URL = "https://protocoderspoint.com/";
+    String WEBSITE_URL = "https://www.google.com/";
     String CURRENT_URL;
     private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
@@ -107,6 +109,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mSwipeLayout.setOnRefreshListener(() -> mWebview.reload());
+
+        // Download files:
+        mWebview.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimetype, long contentLength) {
+
+                DownloadManager.Request myRequest = new DownloadManager.Request(Uri.parse(url));
+                myRequest.allowScanningByMediaScanner();
+                myRequest.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+
+                DownloadManager myManager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                myManager.enqueue(myRequest);
+
+                Toast.makeText(MainActivity.this, getString(R.string.file_download), Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
     }
 
