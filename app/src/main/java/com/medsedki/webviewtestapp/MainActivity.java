@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     WebView mWebview;
 
     String WEBSITE_URL = "https://protocoderspoint.com/";
-    //private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
+    private ViewTreeObserver.OnScrollChangedListener mOnScrollChangedListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,5 +166,29 @@ public class MainActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, getString(R.string.toast_forward), Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mSwipeLayout.getViewTreeObserver().addOnScrollChangedListener(mOnScrollChangedListener =
+                new ViewTreeObserver.OnScrollChangedListener() {
+                    @Override
+                    public void onScrollChanged() {
+                        if (mWebview.getScrollY() == 0)
+                            mSwipeLayout.setEnabled(true);
+                        else
+                            mSwipeLayout.setEnabled(false);
+
+                    }
+                });
+    }
+
+    @Override
+    protected void onStop() {
+        mSwipeLayout.getViewTreeObserver().removeOnScrollChangedListener(mOnScrollChangedListener);
+
+        super.onStop();
     }
 }
