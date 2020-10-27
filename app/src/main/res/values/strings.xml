@@ -5,4 +5,10 @@
     <string name="alert_message">Do you want really quit the application.</string>
     <string name="alert_quit">Quit</string>
     <string name="alert_cancel">Cancel</string>
+
+    <string name="menu_back">Back</string>
+    <string name="menu_forward">Forward</string>
+    <string name="menu_refresh">Refresh</string>
+
+    <string name="toast_forward">Can\'t go forward !!</string>
 </resources>

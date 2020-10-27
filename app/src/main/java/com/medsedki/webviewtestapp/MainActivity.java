@@ -3,13 +3,18 @@ package com.medsedki.webviewtestapp;
 import android.app.AlertDialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import butterknife.BindView;
@@ -91,6 +96,42 @@ public class MainActivity extends AppCompatActivity {
             alertDialog.show();
 
             //super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+
+            case R.id.menu_back:
+                onBackPressed();
+                break;
+            case R.id.menu_forward:
+                onForwardPressed();
+                break;
+            case R.id.menu_refresh:
+                mWebview.reload();
+                break;
+            default:
+                break;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void onForwardPressed() {
+
+        if (mWebview.canGoForward()) {
+            mWebview.goForward();
+        } else {
+            Toast.makeText(this, getString(R.string.toast_forward), Toast.LENGTH_SHORT).show();
         }
     }
 }
